@@ -5,8 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import id.ac.polinema.skor.R;
+import id.ac.polinema.skor.databinding.FragmentGoalBinding;
 import id.ac.polinema.skor.models.GoalScorer;
 
 /**
@@ -30,7 +34,8 @@ public class GoalFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		return null;
+		final FragmentGoalBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal, container, false);
+		return binding.getRoot();
 	}
 
 	public void onSaveClicked(View view) {
@@ -38,6 +43,5 @@ public class GoalFragment extends Fragment {
 	}
 
 	public void onCancelClicked(View view) {
-
 	}
 }
