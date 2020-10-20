@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import id.ac.polinema.skor.R;
 import id.ac.polinema.skor.databinding.FragmentScoreBinding;
@@ -37,6 +38,9 @@ public class ScoreFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		this.homeGoalScorerList = new ArrayList<>();
 		this.awayGoalScorerList = new ArrayList<>();
+
+//		homeGoalScorerList.add(Objects.requireNonNull( (GoalScorer) getArguments().getParcelable(HOME_REQUEST_KEY)));
+//		awayGoalScorerList.add(Objects.requireNonNull( (GoalScorer) getArguments().getParcelable(AWAY_REQUEST_KEY)));
 	}
 
 	@Override
@@ -51,7 +55,7 @@ public class ScoreFragment extends Fragment {
 
 	public void onAddHomeClick(View view) {
 		ScoreFragmentDirections.GoalScorerAction action = ScoreFragmentDirections.goalScorerAction(HOME_REQUEST_KEY);
-		Navigation.findNavController(view).navigate(R.id.goal_scorer_action);
+		Navigation.findNavController(view).navigate(action);
 	}
 
 	public void onAddAwayClick(View view) {
