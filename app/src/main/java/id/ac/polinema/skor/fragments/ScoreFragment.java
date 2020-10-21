@@ -1,12 +1,15 @@
 package id.ac.polinema.skor.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
@@ -39,8 +42,6 @@ public class ScoreFragment extends Fragment {
 		this.homeGoalScorerList = new ArrayList<>();
 		this.awayGoalScorerList = new ArrayList<>();
 
-//		homeGoalScorerList.add(Objects.requireNonNull( (GoalScorer) getArguments().getParcelable(HOME_REQUEST_KEY)));
-//		awayGoalScorerList.add(Objects.requireNonNull( (GoalScorer) getArguments().getParcelable(AWAY_REQUEST_KEY)));
 	}
 
 	@Override
@@ -50,6 +51,23 @@ public class ScoreFragment extends Fragment {
 		binding.setHomeGoalScorerList(homeGoalScorerList);
 		binding.setAwayGoalScorerList(awayGoalScorerList);
 		binding.setFragment(this);
+
+		getParentFragmentManager().setFragmentResultListener(HOME_REQUEST_KEY, this, new FragmentResultListener() {
+			@Override
+			public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+				GoalScorer goalScorer = result.getParcelable(HOME_REQUEST_KEY);
+				homeGoalScorerList.add(goalScorer);
+			}
+		});
+
+		getParentFragmentManager().setFragmentResultListener(AWAY_REQUEST_KEY, this, new FragmentResultListener() {
+			@Override
+			public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+				GoalScorer goalScorer = result.getParcelable(AWAY_REQUEST_KEY);
+				awayGoalScorerList.add(goalScorer);
+			}
+		});
+
 		return binding.getRoot();
 	}
 
@@ -63,4 +81,19 @@ public class ScoreFragment extends Fragment {
 		Navigation.findNavController(view).navigate(action);
 	}
 
+	public String getHomeGoalScorerList() {
+		String a = "";
+		for (GoalScorer goalScorer : homeGoalScorerList){
+			a+=goalScorer.toString();
+		}
+		return a;
+	}
+
+	public String getAwayGoalScorerList() {
+		String text = "";
+		for (GoalScorer goalScorer : awayGoalScorerList){
+			text+=goalScorer.toString();
+		}
+		return text;
+	}
 }

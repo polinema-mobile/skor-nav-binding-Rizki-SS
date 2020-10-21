@@ -15,6 +15,8 @@ import id.ac.polinema.skor.R;
 import id.ac.polinema.skor.databinding.FragmentGoalBinding;
 import id.ac.polinema.skor.models.GoalScorer;
 
+import static id.ac.polinema.skor.fragments.ScoreFragment.SCORER_KEY;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -31,7 +33,6 @@ public class GoalFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.goalScorer = new GoalScorer();
-		requestKey = GoalFragmentArgs.fromBundle(getArguments()).getRequestKey();
 	}
 
 	@Override
@@ -40,18 +41,18 @@ public class GoalFragment extends Fragment {
 		final FragmentGoalBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal, container, false);
 		binding.setFragments(this);
 		binding.setGoalScore(goalScorer);
+		requestKey = GoalFragmentArgs.fromBundle(getArguments()).getRequestKey();
 		return binding.getRoot();
 	}
 
 	public void onSaveClicked(View view) {
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(requestKey, goalScorer);
-		Navigation.findNavController(view).navigate(
-				GoalFragmentDirections.actionGoalFragmentToScoreFragment());
+		getParentFragmentManager().setFragmentResult(requestKey, bundle);
+		Navigation.findNavController(view).navigateUp();
 	}
 
 	public void onCancelClicked(View view) {
-		Navigation.findNavController(view).navigate(
-				GoalFragmentDirections.actionGoalFragmentToScoreFragment());
+		Navigation.findNavController(view).navigateUp();
 	}
 }
